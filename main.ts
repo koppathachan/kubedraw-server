@@ -20,4 +20,4 @@ try {
 	console.log(ex)
 }
 
-app.listen(5000, () => console.log(`Server started at 5000`))
+app.listen(5000, () => console.log(`Server started at 5000. Open: http://localhost:5000`))
