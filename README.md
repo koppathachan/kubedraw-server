@@ -6,3 +6,26 @@ For development the service will run using nodemon. Nodemon will restart the ser
 ```sh
 npm run nodemon
 ```
+## Query
+copy paste the following on the graphiql ui : 
+
+{
+  namespaces{
+    metadata{name}
+  }
+}
+
+## Mutation
+copy paste the following on the graphiql to insert data to mongodb : 
+
+mutation {
+  createNamespace(metadata:{
+    name: "test"
+    annotations: "This is an annotation"
+  }) {
+    metadata {
+      name,
+      annotations
+    }
+  }
+}
