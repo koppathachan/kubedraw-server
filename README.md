@@ -6,6 +6,10 @@ For development the service will run using nodemon. Nodemon will restart the ser
 ```sh
 npm run nodemon
 ```
+
+## MongoDb
+Mongodb 4.0 should be running on 27017
+
 ## Query
 copy paste the following on the graphiql ui : 
 
@@ -26,6 +30,38 @@ mutation {
     metadata {
       name,
       annotations
+    }
+  }
+}
+
+copy paste the following to create a json for kubernetes deployment to mongodb:
+
+mutation {
+  createDeployment(metadata: {
+    name: "mydeployment",
+    labels: {app: "nginx"},
+    annotations: "somn",
+  }, spec: {replicas: 2, selector: {
+    matchLabels:{
+      app: "nginx"
+    }
+  }, template: {
+    spec: {
+      name: "nginx",
+      image: "nginx:1.14.2",
+      ports: {containerPort: "80"}
+    },
+    metadata: {
+      annotations:"anything",
+      name: "nginx",
+      labels:{
+        app:""
+      }
+    }
+  }}) {
+    kind,
+    metadata {
+      name
     }
   }
 }
