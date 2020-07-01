@@ -1,28 +1,9 @@
 import {
-	GraphQLObjectType, GraphQLNonNull,
-	GraphQLString, GraphQLInputObjectType, GraphQLInt, GraphQLList
+	GraphQLObjectType,
+	GraphQLNonNull,
+	GraphQLString
 } from "graphql";
 import { MetadataType } from "./metadata";
-import { LabelInputType } from "./metadata-input";
-
-export const ServicePortsType = new GraphQLInputObjectType({
-	name: "ServicePorts",
-	fields: () => ({
-		targetPort: { type: GraphQLNonNull(GraphQLInt) },
-		protocol: { type: GraphQLNonNull(GraphQLString) },
-		port: { type: GraphQLNonNull(GraphQLInt) }
-	})
-})
-
-export const ServiceSpecInputType = new GraphQLInputObjectType({
-	name: "ServiceSpecInputType",
-	description: "Represents the meta data in k8s objects",
-	fields: () => ({
-		selector: { type: GraphQLNonNull(LabelInputType) },
-		ports: { type: GraphQLList(ServicePortsType) }
-	})
-})
-
 
 /**
  * ServiceType represents a service object in k8s that is used to expose

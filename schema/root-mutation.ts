@@ -2,10 +2,11 @@ import { NamespaceType } from "./namespace";
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString, GraphQLBoolean } from "graphql";
 import { MetadataInputType } from "./metadata-input";
 import { DeploymentType } from "./deployment";
-import { DeploymentSpecInputType } from "./spec-input";
+import { DeploymentSpecInputType } from "./deployment-input";
 import { NamespaceResolvers } from "../resolve/namespace";
 import { DeploymentResolvers } from "../resolve/deployment";
-import { ServiceType, ServiceSpecInputType } from "./service";
+import { ServiceType } from "./service";
+import { ServiceSpecInputType } from "./service-input";
 
 /**
  * Represents the mutation type. A mutation is when you want to change the data(add, update, delete),
