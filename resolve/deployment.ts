@@ -6,6 +6,7 @@ export class DeploymentResolvers {
 		let deployment = new V1Deployment();
 		deployment.kind = "Deployment";
 		deployment.spec = args.spec;
+		deployment.apiVersion = args.apiVersion;
 		deployment.metadata = args.metadata;
 		let diag = new ClusterDiagram("mongodb://localhost:27017")
 		await diag.add(args.cluster, deployment)

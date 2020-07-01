@@ -5,6 +5,7 @@ import { DeploymentType } from "./deployment";
 import { DeploymentSpecInputType } from "./spec-input";
 import { NamespaceResolvers } from "../resolve/namespace";
 import { DeploymentResolvers } from "../resolve/deployment";
+import { ServiceType, ServiceSpecInputType } from "./service";
 
 /**
  * Represents the mutation type. A mutation is when you want to change the data(add, update, delete),
@@ -29,9 +30,21 @@ export const DesignRootMutationType = new GraphQLObjectType({
 			type: GraphQLNonNull(DeploymentType),
 			description: "Add a deployment",
 			args: {
+				apiVersion: { type: GraphQLNonNull(GraphQLString) },
 				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
 				metadata: { type: GraphQLNonNull(MetadataInputType) },
 				spec: { type: GraphQLNonNull(DeploymentSpecInputType) }
+			},
+			resolve: DeploymentResolvers.resolve
+		},
+		createService: {
+			type: GraphQLNonNull(ServiceType),
+			description: "Add a service",
+			args: {
+				apiVersion: { type: GraphQLNonNull(GraphQLString) },
+				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
+				metadata: { type: GraphQLNonNull(MetadataInputType) },
+				spec: { type: GraphQLNonNull(ServiceSpecInputType) }
 			},
 			resolve: DeploymentResolvers.resolve
 		}

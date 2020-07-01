@@ -4,7 +4,7 @@ export const LabelInputType = new GraphQLInputObjectType({
 	name: "LabelInput",
 	description: "Represents the label type in k8s objects",
 	fields: () => ({
-		app: { type: GraphQLNonNull(GraphQLString) }
+		app: { type: GraphQLString }
 	})
 })
 
@@ -13,7 +13,7 @@ export const MetadataInputType = new GraphQLInputObjectType({
 	description: "Represents the meta data in k8s objects",
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
-		labels: { type: GraphQLNonNull(LabelInputType) },
+		labels: { type: LabelInputType },
 		annotations: {
 			type: GraphQLNonNull(GraphQLString),
 			description: "TODO: We put all the shape things here"

@@ -21,13 +21,6 @@ export const ContainerInputType = new GraphQLInputObjectType({
 	})
 })
 
-// export const PodSpecType = new GraphQLObjectType({
-// 	name: "PodSpec",
-// 	description: "Represents the meta data in k8s objects",
-// 	fields: () => ({
-// 		containers: { type: GraphQLNonNull(ContainerInputType) }
-// 	})
-// })
 
 export const PodTemplateInputType = new GraphQLInputObjectType({
 	name: "PodTemplateInput",
