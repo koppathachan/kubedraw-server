@@ -24,7 +24,7 @@ export const MetadataType = new GraphQLObjectType({
 	description: "Represents the meta data in k8s objects",
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
-		labels: { type: GraphQLNonNull(LabelType) },
+		labels: { type: LabelType },
 		annotations: {
 			type: GraphQLNonNull(GraphQLString),
 			description: "TODO: We put all the shape things here"
