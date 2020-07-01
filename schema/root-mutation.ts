@@ -1,48 +1,58 @@
 import { NamespaceType } from "./namespace";
-import { GraphQLNonNull, GraphQLObjectType } from "graphql";
+import { GraphQLNonNull, GraphQLObjectType, GraphQLString, GraphQLBoolean } from "graphql";
 import { MetadataInputType } from "./metadata-input";
-import { V1Namespace, V1Deployment } from "@kubernetes/client-node";
-import { ClusterDiagram } from "../db/cluster-diagram";
 import { DeploymentType } from "./deployment";
 import { DeploymentSpecInputType } from "./spec-input";
+import { NamespaceResolvers } from "../resolve/namespace";
+import { DeploymentResolvers } from "../resolve/deployment";
 
 /**
  * Represents the mutation type. A mutation is when you want to change the data(add, update, delete),
  * All api's making modifications to the date must be here.
  */
-export const RootMutationType = new GraphQLObjectType({
-	name: "Mutation",
-	description: "Root Mutation",
+export const DesignRootMutationType = new GraphQLObjectType({
+	name: "DesignMutation",
+	description: "Design Root Mutation",
 	fields: () => ({
 		createNamespace: {
 			type: GraphQLNonNull(NamespaceType),
 			description: "Add a namespace",
-			args: { metadata: { type: GraphQLNonNull(MetadataInputType) } },
-			resolve: async (_, args) => {
-				let ns = new V1Namespace();
-				ns.kind = "Namespace";
-				ns.metadata = args.metadata;
-				let diag = new ClusterDiagram("mongodb://localhost:27017")
-				await diag.add(ns)
-				return ns;
-			}
+			//arguments to the resolve method right below. This will come from the client api.
+			args: {
+				apiVersion: { type: GraphQLNonNull(GraphQLString) },
+				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
+				metadata: { type: GraphQLNonNull(MetadataInputType) }
+			},
+			resolve: NamespaceResolvers.resolve
 		},
 		createDeployment: {
 			type: GraphQLNonNull(DeploymentType),
 			description: "Add a deployment",
 			args: {
-				metadata: {type: GraphQLNonNull(MetadataInputType)},
-				spec: {type: GraphQLNonNull(DeploymentSpecInputType)}
+				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
+				metadata: { type: GraphQLNonNull(MetadataInputType) },
+				spec: { type: GraphQLNonNull(DeploymentSpecInputType) }
 			},
-			resolve: async (_, args) => {
-				let deployment = new V1Deployment();
-				deployment.kind = "Deployment";
-				deployment.spec = args.spec;
-				deployment.metadata = args.metadata;
-				let diag = new ClusterDiagram("mongodb://localhost:27017")
-				await diag.add(deployment)
-				return deployment;
-			}
+			resolve: DeploymentResolvers.resolve
+		}
+	})
+})
+
+/**
+ * ClusterRootMutationType represents the modification to a cluster. 
+ * for eg to deploy a created cluster this is what is used.
+ */
+export const ClusterRootMutationType = new GraphQLObjectType({
+	name: "ClusterMutation",
+	description: "Cluster Root Mutation",
+	fields: () => ({
+		deploy: {
+			type: GraphQLBoolean,
+			description: "deploys a created cluster to minikube.",
+			args: {
+				cluster: { type: GraphQLString }
+			},
+			resolve: () => true
 		}
 	})
 })
