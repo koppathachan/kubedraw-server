@@ -1,4 +1,5 @@
-import { GraphQLNonNull, GraphQLString, GraphQLInputObjectType } from "graphql";
+import { GraphQLNonNull, GraphQLString, GraphQLInputObjectType, GraphQLList } from "graphql";
+import { HashDataInputType } from "./hashdata-input";
 
 export const LabelInputType = new GraphQLInputObjectType({
 	name: "LabelInput",
@@ -14,8 +15,9 @@ export const MetadataInputType = new GraphQLInputObjectType({
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
 		labels: { type: LabelInputType },
+		namespace: { type: GraphQLString },
 		annotations: {
-			type: GraphQLNonNull(GraphQLString),
+			type: GraphQLList(HashDataInputType),
 			description: "TODO: We put all the shape things here"
 		}
 	})
