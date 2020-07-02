@@ -1,5 +1,5 @@
 import { ClusterDiagram } from "../db/cluster-diagram";
-import { V1Service } from "@kubernetes/client-node";
+import { V1Service, KubeConfig, CoreV1Api } from "@kubernetes/client-node";
 import Utils from "../lib/utils/utils"
 
 export class ServiceResolvers {
@@ -15,7 +15,18 @@ export class ServiceResolvers {
 		service.apiVersion = args.apiVersion
 		service.spec = args.spec;
 		service.metadata = metadata;
-		await diag.add(args.cluster, service)
+		try {
+			console.log(JSON.stringify(service))
+			let kc = new KubeConfig()
+			kc.loadFromDefault();
+
+			const k8sApi = kc.makeApiClient(CoreV1Api)
+			await k8sApi.createNamespacedService(service.metadata?.namespace || "default", service)
+			await diag.add(args.cluster, service)
+
+		} catch (ex) {
+			console.log(ex)
+		}
 		return service;
 	}
 }
