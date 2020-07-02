@@ -15,7 +15,6 @@ export class NamespaceResolvers {
 		ns.metadata = metadata;
 		ns.apiVersion = args.apiVersion;
 		await diag.add(args.cluster, ns)
-
 		let kc = new KubeConfig()
 		kc.loadFromDefault();
 
