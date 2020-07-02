@@ -15,7 +15,7 @@ export const PathType = new GraphQLInputObjectType({
 	name: "PathType",
 	fields: () => ({
 		path: { type: GraphQLNonNull(GraphQLString) },
-		backend : { type: GraphQLList(BackendType) }
+		backend : { type: BackendType }
 	})
 })
 
