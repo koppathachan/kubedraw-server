@@ -1,4 +1,4 @@
-import { V1Namespace } from "@kubernetes/client-node";
+import { V1Namespace, KubeConfig, CoreV1Api } from "@kubernetes/client-node";
 import { ClusterDiagram } from "../db/cluster-diagram";
 import Utils from "../lib/utils/utils"
 
@@ -15,6 +15,13 @@ export class NamespaceResolvers {
 		ns.metadata = metadata;
 		ns.apiVersion = args.apiVersion;
 		await diag.add(args.cluster, ns)
+		let kc = new KubeConfig()
+		kc.loadFromDefault();
+
+		const k8sApi = kc.makeApiClient(CoreV1Api)
+
+		await k8sApi.createNamespace(ns)
+
 		return ns;
 	}
 }
