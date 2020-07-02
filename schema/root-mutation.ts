@@ -7,6 +7,10 @@ import { NamespaceResolvers } from "../resolve/namespace";
 import { DeploymentResolvers } from "../resolve/deployment";
 import { ServiceType } from "./service";
 import { ServiceSpecInputType } from "./service-input";
+import { IngressType } from "./ingress";
+import { IngressSpecInputType } from "./ingress-input";
+import { IngressResolvers } from "../resolve/ingress";
+import { ServiceResolvers } from "../resolve/service";
 
 /**
  * Represents the mutation type. A mutation is when you want to change the data(add, update, delete),
@@ -47,8 +51,19 @@ export const DesignRootMutationType = new GraphQLObjectType({
 				metadata: { type: GraphQLNonNull(MetadataInputType) },
 				spec: { type: GraphQLNonNull(ServiceSpecInputType) }
 			},
-			resolve: DeploymentResolvers.resolve
-		}
+			resolve: ServiceResolvers.resolve
+		},
+		createIngress: {
+			type: GraphQLNonNull(IngressType),
+			description: "Add a Ingress",
+			args: {
+				apiVersion: { type: GraphQLNonNull(GraphQLString) },
+				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
+				metadata: { type: GraphQLNonNull(MetadataInputType) },
+				spec: { type: GraphQLNonNull(IngressSpecInputType) }
+			},
+			resolve: IngressResolvers.resolve
+		},
 	})
 })
 
@@ -66,7 +81,9 @@ export const ClusterRootMutationType = new GraphQLObjectType({
 			args: {
 				cluster: { type: GraphQLString }
 			},
-			resolve: () => true
+			resolve: (_, args) => {
+				args.cluster  // 
+			}
 		}
 	})
 })
