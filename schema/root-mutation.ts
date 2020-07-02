@@ -14,6 +14,8 @@ import { ServiceResolvers } from "../resolve/service";
 import { SecretType } from "./secret";
 import { HashDataInputType } from "./hashdata-input";
 import { ConfigmapType } from "./configmap";
+import { ConfigmapResolvers } from "../resolve/configmap";
+import { SecretResolvers } from "../resolve/secret";
 
 /**
  * Represents the mutation type. A mutation is when you want to change the data(add, update, delete),
@@ -77,7 +79,7 @@ export const DesignRootMutationType = new GraphQLObjectType({
 				type: { type: GraphQLString },
 				data: { type: GraphQLNonNull(GraphQLList(HashDataInputType)) }
 			},
-			resolve: DeploymentResolvers.resolve
+			resolve: SecretResolvers.resolve
 		},
 		createConfigmap: {
 			type: GraphQLNonNull(ConfigmapType),
@@ -88,7 +90,7 @@ export const DesignRootMutationType = new GraphQLObjectType({
 				metadata: { type: GraphQLNonNull(MetadataInputType) },
 				data: { type: GraphQLNonNull(GraphQLList(HashDataInputType)) }
 			},
-			resolve: DeploymentResolvers.resolve
+			resolve: ConfigmapResolvers.resolve
 		}
 	})
 })

@@ -2,7 +2,8 @@ import {
 	GraphQLObjectType,
 	GraphQLNonNull,
 	GraphQLString,
-	GraphQLList
+	GraphQLList,
+	GraphQLBoolean
 } from "graphql";
 import { MetadataType } from "./metadata";
 import { HashDataType } from "./hashdata";
@@ -17,6 +18,8 @@ export const SecretType = new GraphQLObjectType({
 	fields: () => ({
 		apiVersion: { type: GraphQLNonNull(GraphQLString) },
 		metadata: { type: MetadataType },
+		kind: { type: GraphQLString },
+		immutable: { type: GraphQLBoolean },
 		type: { type: GraphQLString },
 		data: { type: GraphQLList(HashDataType) }
 	})
