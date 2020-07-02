@@ -1,6 +1,7 @@
 import { ClusterDiagram } from "../db/cluster-diagram";
 import { V1Secret } from "@kubernetes/client-node";
 import Utils from "../lib/utils/utils"
+import { DeploySecret } from "../kube/resolve/secret"
 
 export class SecretResolvers {
 	public static resolve = async (_: any, args: { [argName: string]: any }) => {
@@ -11,13 +12,14 @@ export class SecretResolvers {
 		metadata["annotations"] && (
 			metadata["annotations"] = Utils.geFormattedtMap(metadata["annotations"])
 		);
-		secret.kind = "secret";
+		secret.kind = "Secret";
 		secret.apiVersion = args.apiVersion
 		args.type && ( secret.type = args.type );
 		args.immutable && ( secret.immutable = args.immutable )
 		secret.metadata = metadata;
-		secret.data = Utils.geFormattedtMap(args.data);
+		secret.stringData = Utils.geFormattedtMap(args.data);
 		await diag.add(args.cluster, secret)
+		DeploySecret.deploySecret( metadata?.namespace || "default", secret );
 		return secret;
 	}
 }
