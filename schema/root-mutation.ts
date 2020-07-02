@@ -1,5 +1,5 @@
 import { NamespaceType } from "./namespace";
-import { GraphQLNonNull, GraphQLObjectType, GraphQLString, GraphQLBoolean } from "graphql";
+import { GraphQLNonNull, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLList } from "graphql";
 import { MetadataInputType } from "./metadata-input";
 import { DeploymentType } from "./deployment";
 import { DeploymentSpecInputType } from "./deployment-input";
@@ -11,6 +11,9 @@ import { IngressType } from "./ingress";
 import { IngressSpecInputType } from "./ingress-input";
 import { IngressResolvers } from "../resolve/ingress";
 import { ServiceResolvers } from "../resolve/service";
+import { SecretType } from "./secret";
+import { HashDataInputType } from "./hashdata-input";
+import { ConfigmapType } from "./configmap";
 
 /**
  * Represents the mutation type. A mutation is when you want to change the data(add, update, delete),
@@ -64,6 +67,29 @@ export const DesignRootMutationType = new GraphQLObjectType({
 			},
 			resolve: IngressResolvers.resolve
 		},
+		createSecret: {
+			type: GraphQLNonNull(SecretType),
+			description: "Add a secret",
+			args: {
+				apiVersion: { type: GraphQLNonNull(GraphQLString) },
+				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
+				metadata: { type: GraphQLNonNull(MetadataInputType) },
+				type: { type: GraphQLString },
+				data: { type: GraphQLNonNull(GraphQLList(HashDataInputType)) }
+			},
+			resolve: DeploymentResolvers.resolve
+		},
+		createConfigmap: {
+			type: GraphQLNonNull(ConfigmapType),
+			description: "Add a configmap",
+			args: {
+				apiVersion: { type: GraphQLNonNull(GraphQLString) },
+				cluster: { type: GraphQLNonNull(GraphQLString), description: "Name of the cluster that is being designed" },
+				metadata: { type: GraphQLNonNull(MetadataInputType) },
+				data: { type: GraphQLNonNull(GraphQLList(HashDataInputType)) }
+			},
+			resolve: DeploymentResolvers.resolve
+		}
 	})
 })
 

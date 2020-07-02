@@ -2,7 +2,9 @@ import {
 	GraphQLObjectType,
 	GraphQLString,
 	GraphQLNonNull,
+	GraphQLList,
 } from "graphql";
+import { HashDataType } from "./hashdata";
 
 /**
  * LabelType represents the label types in k8s objects.
@@ -25,8 +27,9 @@ export const MetadataType = new GraphQLObjectType({
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
 		labels: { type: LabelType },
+		namespace: { type: GraphQLNonNull(GraphQLString) },
 		annotations: {
-			type: GraphQLNonNull(GraphQLString),
+			type: GraphQLList(HashDataType),
 			description: "TODO: We put all the shape things here"
 		}
 	})
