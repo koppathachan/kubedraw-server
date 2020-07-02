@@ -1,9 +1,13 @@
 import { ClusterDiagram } from "../db/cluster-diagram";
 import { V1Service } from "@kubernetes/client-node";
+import Utils from "../lib/utils/utils"
 
 export class ServiceResolvers {
 	public static resolve = async (_: any, args: { [argName: string]: any }) => {
 		let service = new V1Service();
+		args.metadata["annotations"] && (
+			args.metadata["annotations"] = Utils.geFormattedtMap(args.metadata["annotations"])
+		);
 		service.kind = "Service";
 		service.apiVersion = args.apiVersion
 		service.spec = args.spec;

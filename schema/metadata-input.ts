@@ -15,7 +15,7 @@ export const MetadataInputType = new GraphQLInputObjectType({
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
 		labels: { type: LabelInputType },
-		namespace: { type: GraphQLNonNull( GraphQLString )},
+		namespace: { type: GraphQLString },
 		annotations: {
 			type: GraphQLList(HashDataInputType),
 			description: "TODO: We put all the shape things here"

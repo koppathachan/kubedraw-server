@@ -27,7 +27,7 @@ export const MetadataType = new GraphQLObjectType({
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
 		labels: { type: LabelType },
-		namespace: { type: GraphQLNonNull(GraphQLString) },
+		namespace: { type: GraphQLString },
 		annotations: {
 			type: GraphQLList(HashDataType),
 			description: "TODO: We put all the shape things here"
