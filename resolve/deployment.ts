@@ -29,6 +29,8 @@ export class DeploymentResolvers {
 			]
 		}]
 		//@ts-ignore
+		deployment.spec.template.metadata.labels = args.metadata.labels
+		//@ts-ignore
 		delete deployment.spec?.template.spec.image
 		//@ts-ignore
 		delete deployment.spec?.template.spec.name
