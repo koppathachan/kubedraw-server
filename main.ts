@@ -1,8 +1,13 @@
 import express from "express"
 import graphqlHTTP from "express-graphql"
 import { DesignSchema, ClusterSchema } from "./schema/schema"
+const cors = require("cors");
+
 const app = express()
 const PORT = 50051
+
+app.use(cors());
+
 /**
  * The path of all the design apis. We will use this to save, edit in the design phase
  */

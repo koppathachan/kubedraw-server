@@ -16,7 +16,7 @@ export const DesignRootQueryType = new GraphQLObjectType({
 			args: { cluster: { type: GraphQLString } },
 			resolve: async (_, args) => {
 				let cluster = args.cluster || "cluster"
-				return new ClusterDiagram("mongodb://localhost:27017").get(cluster, "namespace")
+				return new ClusterDiagram("mongodb://localhost:27017").get(cluster, "Namespace")
 			}
 		}
 	})
