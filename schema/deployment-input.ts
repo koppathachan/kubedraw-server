@@ -2,9 +2,19 @@ import {
 	GraphQLString,
 	GraphQLNonNull,
 	GraphQLInputObjectType,
-	GraphQLInt
+	GraphQLInt,
+	GraphQLList
 } from "graphql";
 import { MetadataInputType, LabelInputType } from "./metadata-input";
+
+export const envVarType = new GraphQLInputObjectType({
+	name: "envVarType",
+	description: "Represents the env in container spec",
+	fields: () => ({
+		name: { type: GraphQLNonNull(GraphQLString) },
+		value: { type: GraphQLNonNull(GraphQLString) }
+	})
+})
 
 export const ContainerInputType = new GraphQLInputObjectType({
 	name: "ContainerInput",
@@ -12,6 +22,7 @@ export const ContainerInputType = new GraphQLInputObjectType({
 	fields: () => ({
 		name: { type: GraphQLNonNull(GraphQLString) },
 		image: { type: GraphQLNonNull(GraphQLString) },
+		env: { type: GraphQLList(envVarType) },
 		ports: {
 			type: new GraphQLInputObjectType({
 				name: "Ports",

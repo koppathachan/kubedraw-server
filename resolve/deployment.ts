@@ -18,6 +18,7 @@ export class DeploymentResolvers {
 		deployment.apiVersion = args.apiVersion;
 		deployment.metadata = args.metadata;
 		deployment.spec = args.spec
+		
 		//@ts-ignore
 		deployment.spec.template.spec.containers = [{
 			"image": args.spec.template.spec.image,
@@ -26,7 +27,8 @@ export class DeploymentResolvers {
 				{
 					"containerPort": parseInt(args.spec.template.spec.ports.containerPort)
 				}
-			]
+			],
+			"env": args.spec.template.spec.env
 		}]
 		//@ts-ignore
 		deployment.spec.template.metadata.labels = args.metadata.labels
